@@ -58,9 +58,8 @@ question: Your question text goes here.
 
 ### Configuration Options
 
-`question` (required): The question to be displayed. You can use Markdown here, like inline code.  
-`type` (required): The type of question. Must be either "**single**" or "**multiple**".
-
+- `question` (required): The question to be displayed. You can use Markdown here, like inline code.  
+- `type` (required): The type of question. Must be either "**single**" or "**multiple**".
 
 ### Defining Choices and Correct Answers
 

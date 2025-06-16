@@ -1,0 +1,25 @@
+[build-system]
+requires = ["uv_build>=0.7.13,<0.8.0"]
+build-backend = "uv_build"
+
+[project]
+name = "mkdocs-mcq"
+version = "0.1.0"
+description = "MkDocs plugin for multiple choice quizzes"
+authors = [{ name = "broktoram", email = "broktoram@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = [
+    "mkdocs>=1.5",
+    "pymdown-extensions>=10.0",
+    "pyyaml>=6.0"
+]
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs-material>=9.0",
+]
+
+[project.entry-points."mkdocs.plugins"]
+mcq = "mkdocs_mcq.plugin:MCQPlugin"

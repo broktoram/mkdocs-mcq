@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "mkdocs-mcq"
-version = "0.1.0"
+version = "0.1.1"
 description = "MkDocs plugin for multiple choice quizzes"
 authors = [{ name = "broktoram", email = "broktoram@gmail.com" }]
 readme = "README.md"
@@ -23,3 +23,9 @@ docs = [
 
 [project.entry-points."mkdocs.plugins"]
 mcq = "mkdocs_mcq.plugin:MCQPlugin"
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true

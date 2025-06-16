@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "mkdocs-mcq"
-version = "0.1.1"
+version = "0.1.2"
 description = "MkDocs plugin for multiple choice quizzes"
 authors = [{ name = "broktoram", email = "broktoram@gmail.com" }]
 readme = "README.md"

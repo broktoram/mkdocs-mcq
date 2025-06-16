@@ -1,4 +1,4 @@
-// Replace your entire initializeMcqs function with this one.
+// Fixed version of mcq.js with corrected logic
 
 function initializeMcqs() {
   // This setup logic for individual questions remains the same
@@ -58,8 +58,25 @@ function initializeMcqs() {
         }
 
         const choicesList = mcq.querySelector(".mcq-choices ul.task-list");
-        let isQuestionCorrect = true;
 
+        // FIX 1: Collect user's selected answers properly
+        let userSelectedIndices = [];
+        choicesList
+          .querySelectorAll("li.task-list-item")
+          .forEach((item, index) => {
+            const checkbox = item.querySelector("input");
+            if (checkbox && checkbox.checked) {
+              userSelectedIndices.push(index);
+            }
+          });
+
+        // FIX 2: Correct logic for determining if question is answered correctly
+        // A question is correct if and only if the user selected exactly the correct answers
+        const isQuestionCorrect =
+          correctIndices.length === userSelectedIndices.length &&
+          correctIndices.every((idx) => userSelectedIndices.includes(idx));
+
+        // Apply visual styling to choices
         choicesList
           .querySelectorAll("li.task-list-item")
           .forEach((item, index) => {
@@ -73,16 +90,9 @@ function initializeMcqs() {
             else if (isCorrectOption && !isChecked)
               item.classList.add("was-correct");
 
-            if (
-              (isCorrectOption && !isChecked) ||
-              (!isCorrectOption && isChecked)
-            ) {
-              isQuestionCorrect = false;
-            }
-
             const wasMissedCorrect = item.classList.contains("was-correct");
 
-            // --- This logic now checks for the encoded feedback ---
+            // FIX 3: Better feedback handling with proper validation
             const encodedFeedback = item.dataset.feedback;
 
             if (isChecked || wasMissedCorrect) {
@@ -96,25 +106,37 @@ function initializeMcqs() {
                 statusLabel = "<span class='mcq-status-label'>(MISSED)</span>";
 
               // Only create the feedback div if there is a label or feedback text
-              if (statusLabel || encodedFeedback) {
+              if (
+                statusLabel ||
+                (encodedFeedback && encodedFeedback.trim() !== "")
+              ) {
                 const feedbackDiv = document.createElement("div");
                 feedbackDiv.classList.add("mcq-feedback");
                 let finalHtml = "";
 
-                if (encodedFeedback) {
-                  // --- NEW: Decode the feedback from Base64 ---
-                  const feedbackHtml = atob(encodedFeedback);
+                if (encodedFeedback && encodedFeedback.trim() !== "") {
+                  try {
+                    // Decode the feedback from Base64
+                    const feedbackHtml = atob(encodedFeedback);
 
-                  // Create a temporary element to safely append the suffix
-                  const tempDiv = document.createElement("div");
-                  tempDiv.innerHTML = feedbackHtml;
-                  const firstChild = tempDiv.querySelector(":first-child");
+                    if (feedbackHtml.trim() !== "") {
+                      // Create a temporary element to safely append the suffix
+                      const tempDiv = document.createElement("div");
+                      tempDiv.innerHTML = feedbackHtml;
+                      const firstChild = tempDiv.querySelector(":first-child");
 
-                  if (firstChild) {
-                    firstChild.innerHTML += " " + statusLabel;
-                    finalHtml = tempDiv.innerHTML;
-                  } else {
-                    finalHtml = feedbackHtml + " " + statusLabel;
+                      if (firstChild) {
+                        firstChild.innerHTML += " " + statusLabel;
+                        finalHtml = tempDiv.innerHTML;
+                      } else {
+                        finalHtml = feedbackHtml + " " + statusLabel;
+                      }
+                    } else {
+                      finalHtml = "<p>" + statusLabel + "</p>";
+                    }
+                  } catch (e) {
+                    console.warn("Failed to decode feedback:", e);
+                    finalHtml = "<p>" + statusLabel + "</p>";
                   }
                 } else {
                   finalHtml = "<p>" + statusLabel + "</p>";

@@ -105,3 +105,33 @@ question: |
 - [ ] No error, it will print `105`.
   > Incorrect. While some languages might concatenate these, Python raises a `TypeError` instead.
 ```
+
+### Question 5
+
+```mcq
+---
+type: single
+question: Which query correctly handles potential NULL values in string concatenation?
+---
+
+- [ ]
+  ```sql
+  SELECT first_name + ' ' + last_name AS full_name FROM guest WHERE guest_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  ```
+
+- [x]
+  ```sql
+  SELECT COALESCE(first_name, 'Unknown') + ' ' + COALESCE(last_name, 'Guest') AS full_name FROM guest WHERE registration_date >= '2023-01-01' AND status = 'active';
+  ```
+  > COALESCE handles NULL values by replacing them with default strings
+
+- [ ]
+  ```sql
+  SELECT ISNULL(first_name + ' ' + last_name, 'Unknown Guest') AS full_name FROM guest WHERE email IS NOT NULL AND phone_number IS NOT NULL;
+  ```
+
+- [ ]
+  ```sql
+  SELECT CONCAT(IFNULL(first_name, ''), ' ', IFNULL(middle_name, ''), ' ', IFNULL(last_name, '')) AS full_name FROM guest_table WHERE created_at > NOW() - INTERVAL 30 DAY;
+  ```
+```

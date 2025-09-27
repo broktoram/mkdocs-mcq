@@ -1,0 +1,77 @@
+name: Build and Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
+
+    - name: Set up Python
+      run: uv python install
+
+    - name: Install dependencies and project
+      run: uv sync
+
+    - name: Run basic tests (if any)
+      run: |
+        # Add your test commands here when you have tests
+        # uv run pytest
+        echo "No tests configured yet"
+
+    - name: Build package
+      run: uv build
+
+    - name: Check package contents
+      run: |
+        echo "=== Built packages ==="
+        ls -la dist/
+        echo "=== Package info ==="
+        uv run python -c "import tarfile; t=tarfile.open('dist/mkdocs_mcq-$(uv version | cut -d' ' -f2).tar.gz'); print('\\n'.join(t.getnames()))"
+
+    - name: Publish to TestPyPI
+      run: |
+        uv publish --index testpypi \
+          --username __token__ \
+          --password ${{ secrets.TESTPYPI_API_TOKEN }}
+
+    - name: Test installation from TestPyPI
+      run: |
+        # Wait a bit for TestPyPI to process
+        sleep 30
+
+        # Test installation in a clean environment
+        uv run --isolated --with mkdocs-mcq==$(uv version | cut -d' ' -f2) \
+          --index https://test.pypi.org/simple/ \
+          --extra-index-url https://pypi.org/simple/ \
+          python -c "import mkdocs_mcq; print('✅ Package imports successfully')"
+
+    - name: Publish to PyPI
+      run: |
+        uv publish \
+          --username __token__ \
+          --password ${{ secrets.PYPI_API_TOKEN }}
+
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Changes in this release:
+          - Check the commit history for details
+        draft: false
+        prerelease: false

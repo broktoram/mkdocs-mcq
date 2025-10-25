@@ -3,6 +3,8 @@
 
 An interactive plugin for MkDocs to create and display single and multiple-choice quizzes directly within your documentation.
 
+**[📖 View Live Demo](https://broktoram.github.io/mkdocs-mcq/)**
+
 ## Features
 
 - **Multiple Question Types:** Supports both single choice (radio buttons) and multiple choice (checkboxes) questions.

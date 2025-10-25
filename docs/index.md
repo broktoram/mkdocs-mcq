@@ -12,7 +12,7 @@ Test your Python skills with the quiz below.
 ```mcq
 ---
 type: single
-question: What is the output of `print(2 ** 3)`?
+question: What is the output of `#!python print(2 ** 3)`?
 ---
 
 - [ ] 6
@@ -116,22 +116,30 @@ question: Which query correctly handles potential NULL values in string concaten
 
 - [ ]
   ```sql
-  SELECT first_name + ' ' + last_name AS full_name FROM guest WHERE guest_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  SELECT first_name + ' ' + last_name AS full_name 
+  FROM guest 
+  WHERE guest_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   ```
 
 - [x]
   ```sql
-  SELECT COALESCE(first_name, 'Unknown') + ' ' + COALESCE(last_name, 'Guest') AS full_name FROM guest WHERE registration_date >= '2023-01-01' AND status = 'active';
+  SELECT COALESCE(first_name, 'Unknown') + ' ' + COALESCE(last_name, 'Guest') AS full_name 
+  FROM guest 
+  WHERE registration_date >= '2023-01-01' AND status = 'active';
   ```
   > COALESCE handles NULL values by replacing them with default strings
 
 - [ ]
   ```sql
-  SELECT ISNULL(first_name + ' ' + last_name, 'Unknown Guest') AS full_name FROM guest WHERE email IS NOT NULL AND phone_number IS NOT NULL;
+  SELECT ISNULL(first_name + ' ' + last_name, 'Unknown Guest') AS full_name 
+  FROM guest 
+  WHERE email IS NOT NULL AND phone_number IS NOT NULL;
   ```
 
 - [ ]
   ```sql
-  SELECT CONCAT(IFNULL(first_name, ''), ' ', IFNULL(middle_name, ''), ' ', IFNULL(last_name, '')) AS full_name FROM guest_table WHERE created_at > NOW() - INTERVAL 30 DAY;
+  SELECT CONCAT(IFNULL(first_name, ''), ' ', IFNULL(middle_name, ''), ' ', IFNULL(last_name, '')) AS full_name 
+  FROM guest_table 
+  WHERE created_at > NOWD() - INTERVAL 30 DAY;
   ```
 ```

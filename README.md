@@ -72,12 +72,14 @@ Use `- [x]` for a correct answer.
 
 To add detailed feedback to any choice, place it in a blockquote (`>`) immediately following the choice.
 
+**Note:** Do not include markers like "CORRECT", "Incorrect Answer", etc. in your feedback text. The plugin automatically appends `(CORRECT)`, `(INCORRECT)`, or `(MISSED)` labels to the feedback based on the user's response.
+
 ```md
 - [x] 8
-  > Correct! `**` is the exponentiation operator in Python.
+  > `**` is the exponentiation operator in Python.
 
 - [ ] 6
-  > Incorrect. The `**` operator is for exponents, not multiplication.
+  > The `**` operator is for exponents, not multiplication.
 ```
 
 ## Examples
@@ -96,10 +98,10 @@ question: What is the output of `print(2 ** 3)`?
 ---
 
 - [ ] 6
-  > Incorrect. `2 * 3` would be 6.
+  > `2 * 3` would be 6.
 
 - [x] 8
-  > CORRECT! `**` is the exponentiation operator in Python.
+  > `**` is the exponentiation operator in Python.
 
 - [ ] 9
 - [ ] 5
@@ -168,7 +170,7 @@ question: |
   > Python does not automatically convert the string `"5"` to a number in this context.
 
 - [ ] No error, it will print `105`.
-  > Incorrect. While some languages might concatenate these, Python raises a `TypeError` instead.
+  > While some languages might concatenate these, Python raises a `TypeError` instead.
 ```
 ````
 

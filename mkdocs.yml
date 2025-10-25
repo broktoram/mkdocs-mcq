@@ -1,5 +1,6 @@
 # mkdocs.yml
 site_name: Mkdocs MCQ Plugin
+site_url: https://broktoram.github.io/mkdocs-mcq/
 theme:
   name: material
   palette:

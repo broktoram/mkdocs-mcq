@@ -143,3 +143,54 @@ question: Which query correctly handles potential NULL values in string concaten
   WHERE created_at > NOWD() - INTERVAL 30 DAY;
   ```
 ```
+
+### Question 6
+
+```mcq
+---
+type: single
+question: |
+  What is the derivative of 
+  
+  $$
+  f(x) = x^2 + 3x + 5
+  $$
+---
+
+- [ ] $f'(x) = x + 3$
+  > You need to apply the power rule to each term.
+
+- [x] $f'(x) = 2x + 3$
+  > Using the power rule: $\frac{d}{dx}(x^2) = 2x$ and $\frac{d}{dx}(3x) = 3$
+
+- [ ] $f'(x) = 2x^2 + 3x$
+  > Remember, the derivative reduces the power by 1.
+
+- [ ] $f'(x) = x^2 + 3$
+  > This is not how differentiation works.
+```
+
+### Question 7
+
+```mcq
+---
+type: multiple
+question: Which of the following integrals are correctly evaluated? (Select all that apply)
+---
+
+- [x]
+  $$\int_0^1 x^2 dx = \frac{1}{3}$$
+  > Using the power rule for integration: $\int x^2 dx = \frac{x^3}{3}$, evaluated from 0 to 1.
+
+- [ ]
+  $$\int_0^{\pi} \sin(x) dx = 0$$
+  > This is incorrect. The integral equals 2.
+
+- [x]
+  $$\int_1^e \frac{1}{x} dx = 1$$
+  > This equals $\ln(e) - \ln(1) = 1 - 0 = 1$
+
+- [ ]
+  $$\int_{-1}^{1} x dx = 1$$
+  > This integral equals 0 because the function is odd and the limits are symmetric.
+```

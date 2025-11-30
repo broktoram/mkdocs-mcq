@@ -9,6 +9,7 @@ An interactive plugin for MkDocs to create and display single and multiple-choic
 
 - **Multiple Question Types:** Supports both single choice (radio buttons) and multiple choice (checkboxes) questions.
 - **Rich Content:** Use standard Markdown within questions, answers, and feedback, including inline code, links, bold/italic text, and even multi-line code blocks.
+- **Math Support:** Render mathematical equations using LaTeX syntax in questions and answers with inline (`$x^2$`) and display (`$$\int_0^1 x dx$$`) math.
 - **Immediate Feedback:** Users get instant results after submitting an answer, with clear visual indicators for CORRECT, INCORRECT, and MISSED states.
 - **Explanations/Details:** Provide detailed feedback for any answer choice to help users learn.
 - **Theme Agnostic:** Uses embedded SVG icons to ensure a consistent and polished look on any MkDocs theme, not just Material for MkDocs.
@@ -83,6 +84,36 @@ To add detailed feedback to any choice, place it in a blockquote (`>`) immediate
 - [ ] 6
   > The `**` operator is for exponents, not multiplication.
 ```
+
+### Math Equations
+
+You can include mathematical equations in questions, choices, and feedback using LaTeX syntax.
+
+**Inline math**: Use single dollar signs: `$E = mc^2$` renders as $E = mc^2$
+
+**Display math**: Use double dollar signs for block equations:
+```
+$$
+\int_0^1 x^2 dx = \frac{1}{3}
+$$
+```
+
+**Example:**
+
+````md
+```mcq
+---
+type: single
+question: What is the derivative of $f(x) = x^2 + 3x + 5$?
+---
+
+- [x] $f'(x) = 2x + 3$
+  > Correct! Using the power rule: $\frac{d}{dx}(x^2) = 2x$ and $\frac{d}{dx}(3x) = 3$
+
+- [ ] $f'(x) = x + 3$
+  > This is incorrect. You need to apply the power rule to each term.
+```
+````
 
 ## Examples
 

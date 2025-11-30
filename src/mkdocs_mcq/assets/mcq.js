@@ -146,6 +146,11 @@ function initializeMcqs() {
                 item
                   .querySelector("label")
                   .insertAdjacentElement("afterend", feedbackDiv);
+
+                // Trigger MathJax to process the newly inserted feedback
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                  window.MathJax.typesetPromise([feedbackDiv]);
+                }
               }
             }
           });

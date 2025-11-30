@@ -27,6 +27,8 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true # Important for styling
       clickable_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
 
 plugins:
   - mcq

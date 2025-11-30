@@ -65,6 +65,7 @@ def format_mcq(source, language, css_class, options, md, **kwargs):
             'pymdownx.inlinehilite',
             'pymdownx.superfences',
             'pymdownx.tasklist',
+            'pymdownx.arithmatex',
         ]
 
         # Copy extension configs, but modify superfences to exclude custom fences
@@ -78,6 +79,9 @@ def format_mcq(source, language, css_class, options, md, **kwargs):
                     extension_configs_to_use[ext_name] = superfences_cfg
                 else:
                     extension_configs_to_use[ext_name] = mdx_configs[ext_name]
+            elif ext_name == 'pymdownx.arithmatex':
+                # Always configure arithmatex with generic mode for MCQ content
+                extension_configs_to_use[ext_name] = {'generic': True}
 
         temp_md = markdown.Markdown(
             extensions=extensions_to_use,
@@ -127,9 +131,15 @@ class MCQPlugin(BasePlugin):
 
     def on_config(self, config):
         config.setdefault("extra_css", []).append("assets/mcq.css")
-        config.setdefault("extra_javascript", []).append("assets/mcq.js")
+        config.setdefault("extra_javascript", []).extend([
+            "assets/mcq.js",
+            "assets/mathjax-config.js",
+            "https://polyfill.io/v3/polyfill.min.js?features=es6",
+            "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ])
         self._configure_superfences(config)
         self._configure_tasklist(config)
+        self._configure_arithmatex(config)
         return config
 
     def _configure_superfences(self, config):
@@ -155,6 +165,11 @@ class MCQPlugin(BasePlugin):
         tasklist_config = mdx_configs.setdefault("pymdownx.tasklist", {})
         tasklist_config["custom_checkbox"] = True
 
+    def _configure_arithmatex(self, config):
+        mdx_configs = config.setdefault("mdx_configs", {})
+        arithmatex_config = mdx_configs.setdefault("pymdownx.arithmatex", {})
+        arithmatex_config["generic"] = True
+
     def on_page_content(self, html, page, config, files):
         if '<div class="mcq-container"' in html:
             html = f'<form id="mkdocs-mcq-form">{html}</form>'
@@ -168,7 +183,7 @@ class MCQPlugin(BasePlugin):
 
     def on_files(self, files, config):
         plugin_dir = os.path.dirname(__file__)
-        for asset_file in ["mcq.css", "mcq.js"]:
+        for asset_file in ["mcq.css", "mcq.js", "mathjax-config.js"]:
             files.append(
                 File(
                     path=f"assets/{asset_file}",
